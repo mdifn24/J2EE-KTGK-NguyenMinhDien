@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <style th:fragment="custom-css">
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+        body { background-color: #f3f4f6 !important; color: #1f2937 !important; font-family: 'Nunito', sans-serif !important; }
+        .bg-custom-nav { background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .card-custom { background-color: #ffffff; border: none; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-custom:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .btn-custom-primary { background-color: #4f46e5; color: #ffffff; border: none; font-weight: 600; border-radius: 8px; transition: all 0.2s; }
+        .btn-custom-primary:hover { background-color: #4338ca; color: #ffffff; transform: scale(1.02); }
+        .btn-custom-outline { background-color: transparent; color: #4f46e5; border: 2px solid #4f46e5; font-weight: 600; border-radius: 8px; transition: all 0.2s; }
+        .btn-custom-outline:hover { background-color: #4f46e5; color: #ffffff; }
+        .form-control-custom { background-color: #f9fafb; border: 1px solid #d1d5db; color: #1f2937; border-radius: 8px; font-weight: 500;}
+        .form-control-custom:focus { background-color: #ffffff; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+        .table-custom-wrapper { background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); overflow: hidden; padding: 10px;}
+        .table-custom thead { background-color: #f3f4f6; color: #374151; }
+        .table-custom th { border-bottom: none; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;}
+        .table-custom td { vertical-align: middle; color: #4b5563; border-bottom: 1px solid #f3f4f6;}
+        .nav-link { color: #4b5563 !important; font-weight: 600; transition: color 0.2s; }
+        .nav-link:hover { color: #4f46e5 !important; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-custom-nav py-3 mb-5" th:fragment="navbar">
+    <div class="container">
+        <a class="navbar-brand fw-bold fs-4 d-flex align-items-center" href="/home" style="color: #4f46e5;">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" class="me-2"><path d="M12 2L1 7L12 12L23 7L12 2Z"></path><path d="M1 12L12 17L23 12V17L12 22L1 17V12Z"></path></svg>
+            CourseApp
+        </a>
+
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="d-flex mx-auto w-100 my-3 my-lg-0" style="max-width: 450px;" action="/home" method="get">
+                <input class="form-control form-control-custom me-2" type="search" name="keyword" placeholder="Tìm kiếm tên học phần..." th:value="${keyword}">
+                <button class="btn btn-custom-outline px-4" type="submit">Tìm</button>
+            </form>
+
+            <ul class="navbar-nav ms-auto align-items-center gap-2">
+                <li class="nav-item" sec:authorize="hasRole('STUDENT')">
+                    <a class="nav-link" href="/my-courses">Học phần của tôi</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/admin/courses">Quản lý Học phần</a>
+                </li>
+                <li class="nav-item ms-lg-2" sec:authorize="isAnonymous()">
+                    <a class="btn btn-custom-primary px-4 py-2" href="/login">Đăng nhập</a>
+                </li>
+                <li class="nav-item ms-lg-2" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline m-0">
+                        <button type="submit" class="btn btn-custom-outline px-4 py-2">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
